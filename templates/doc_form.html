@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html class="light antialiased" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{% if doc %}Edit{% else %}Add{% endif %} Document - BlueFlameSearch</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: "#fdfdfa",
+                        surface: "#ffffff",
+                        primary: "#361f1a",
+                        secondary: "#984629",
+                        outline: "#827471",
+                    },
+                    fontFamily: {
+                        sans: ["Public Sans", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .soft-shadow {
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            opacity: 0.5;
+            animation: float 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+
+            100% {
+                transform: translateY(-20px) scale(1.05);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background text-gray-800 font-sans min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <!-- Decorative Background -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="blob w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-[#f2e6e3] -top-20 -left-20"></div>
+        <div class="blob w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-[#e8cdb3] top-[40%] -right-20"
+            style="animation-delay: -5s;"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="glassmorphism w-full px-6 py-4 sticky top-0 z-50 flex justify-between items-center transition-all">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-secondary text-2xl"
+                style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+            <a href="/"
+                class="text-xl md:text-2xl font-bold tracking-tight text-primary hover:text-secondary transition-colors">BlueFlameSearch</a>
+        </div>
+        <nav class="hidden sm:flex items-center gap-6">
+            <a href="/" class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Home</a>
+            <a href="/docs"
+                class="text-sm font-semibold text-primary hover:text-secondary transition-colors">Documents</a>
+            <a href="#" class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors">API</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col items-center px-4 md:px-8 py-16 z-10 w-full">
+        <div class="w-full max-w-3xl flex flex-col gap-6">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-extrabold text-primary tracking-tight">{% if doc %}Edit Document{% else %}Add
+                    Document{% endif %}</h1>
+                <a href="/docs"
+                    class="text-gray-500 hover:text-primary transition-colors text-sm font-medium flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[18px]">arrow_back</span> Back to list
+                </a>
+            </div>
+
+            <div class="glassmorphism rounded-xl p-6 lg:p-8 bg-white/60 soft-shadow ring-1 ring-gray-200">
+                <form action="{% if doc %}/docs/edit/{{ doc._id }}{% else %}/docs/create{% endif %}" method="POST"
+                    class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-2">
+                        <label for="content" class="text-sm font-semibold text-gray-700">Document Content</label>
+                        <textarea id="content" name="content" rows="12"
+                            class="w-full bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-all duration-300 p-4 text-gray-800 placeholder-gray-400"
+                            placeholder="Enter the document content here..."
+                            required>{% if doc %}{{ doc.content }}{% endif %}</textarea>
+                    </div>
+
+                    <div class="flex justify-end pt-4">
+                        <button type="submit"
+                            class="bg-primary text-white rounded-lg px-8 py-3 font-medium text-sm hover:bg-secondary transition-all active:scale-95 shadow-md flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">save</span> Save Document
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

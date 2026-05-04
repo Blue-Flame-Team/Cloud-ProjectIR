@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/?serverSelectionTimeoutMS=2000
+      - FLASK_ENV=production
+    depends_on:
+      - mongodb
+    volumes:
+      - ./Data:/app/Data
+
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

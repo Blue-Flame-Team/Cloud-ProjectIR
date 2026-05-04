@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html class="light antialiased" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>BlueFlameSearch - Blue Flame Team</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: "#fdfdfa",
+                        surface: "#ffffff",
+                        primary: "#361f1a",
+                        secondary: "#984629",
+                        outline: "#827471",
+                    },
+                    fontFamily: {
+                        sans: ["Public Sans", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .soft-shadow {
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            opacity: 0.5;
+            animation: float 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+
+            100% {
+                transform: translateY(-20px) scale(1.05);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background text-gray-800 font-sans min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <!-- Decorative Background -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="blob w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-[#f2e6e3] -top-20 -left-20"></div>
+        <div class="blob w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-[#e8cdb3] top-[40%] -right-20"
+            style="animation-delay: -5s;"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="glassmorphism w-full px-6 py-4 sticky top-0 z-50 flex justify-between items-center transition-all">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-secondary text-2xl"
+                style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+            <a href="/"
+                class="text-xl md:text-2xl font-bold tracking-tight text-primary hover:text-secondary transition-colors">BlueFlameSearch</a>
+        </div>
+        <nav class="hidden sm:flex items-center gap-6">
+            <a href="/" class="text-sm font-semibold text-primary hover:text-secondary transition-colors">Home</a>
+            <a href="/docs"
+                class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Documents</a>
+            <a href="#" class="text-sm font-semibold text-gray-500 hover:text-primary transition-colors">API</a>
+        </nav>
+        <button class="sm:hidden text-primary">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+    </header>
+
+    <!-- Main Content Canvas -->
+    <main class="flex-grow flex flex-col items-center justify-center px-4 md:px-8 py-16 z-10 w-full">
+        <div class="text-center w-full max-w-3xl flex flex-col items-center gap-8">
+            <div class="space-y-4">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-primary tracking-tight">Illuminate Your Data</h1>
+                <p class="text-base md:text-lg text-gray-600 max-w-xl mx-auto">Discover the power of TF-IDF engine built
+                    to retrieve the most relevant information quickly securely cleanly.</p>
+            </div>
+
+            <!-- Search Container -->
+            <form action="/search" method="GET" class="w-full relative group">
+                <div
+                    class="glassmorphism rounded-full p-2 flex items-center bg-white/70 hover:bg-white soft-shadow ring-1 ring-gray-200 focus-within:ring-2 focus-within:ring-secondary/50 transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-gray-400 ml-4 mr-2 group-focus-within:text-secondary transition-colors">search</span>
+                    <input name="q"
+                        class="w-full bg-transparent border-none focus:ring-0 text-gray-800 text-lg placeholder-gray-400 py-3 px-2 md:px-4"
+                        placeholder="Search across dimensions..." type="text" autocomplete="off" required />
+                    <button type="submit"
+                        class="bg-primary text-white rounded-full px-6 md:px-8 py-3 ml-2 font-medium text-sm hover:bg-secondary transition-all active:scale-95 shadow-md flex items-center gap-2">
+                        Search
+                    </button>
+                </div>
+            </form>
+
+            <!-- Quick Suggestions -->
+            <div class="flex flex-wrap justify-center gap-3 mt-4">
+                <a href="/search?q=technology"
+                    class="bg-white/50 border border-gray-200 text-gray-600 px-4 py-1.5 rounded-full text-sm hover:bg-white hover:text-secondary hover:border-secondary/30 transition-all">#Technology</a>
+                <a href="/search?q=health"
+                    class="bg-white/50 border border-gray-200 text-gray-600 px-4 py-1.5 rounded-full text-sm hover:bg-white hover:text-secondary hover:border-secondary/30 transition-all">#Health</a>
+                <a href="/search?q=space"
+                    class="bg-white/50 border border-gray-200 text-gray-600 px-4 py-1.5 rounded-full text-sm hover:bg-white hover:text-secondary hover:border-secondary/30 transition-all">#Space</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer
+        class="mt-auto glassmorphism border-t border-gray-200 w-full py-6 px-6 z-10 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+        <div class="flex items-center gap-2 justify-center">
+            <span class="material-symbols-outlined text-secondary text-xl">local_fire_department</span>
+            <span class="text-sm font-semibold text-gray-800">© 2026 Blue Flame Team</span>
+        </div>
+        <div class="flex gap-6 text-sm font-medium text-gray-500">
+            <a href="#" class="hover:text-primary transition-colors">Privacy</a>
+            <a href="#" class="hover:text-primary transition-colors">Terms</a>
+            <a href="#" class="hover:text-primary transition-colors">About Us</a>
+        </div>
+    </footer>
+
+</body>
+
+</html>
