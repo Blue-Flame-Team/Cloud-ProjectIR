@@ -12,6 +12,19 @@ The main goals are:
 - Containerize the solution for consistent testing and production deployment.
 - Successfully deploy and run the system on AWS Cloud infrastructure.
 
+### System Architecture Diagram
+```mermaid
+graph TD
+    Client(User Web Browser) -- "HTTP Traffic\nPort 5000" --> Flask[Flask Web Application\n(Docker Container: web)]
+    
+    subid1 --- Flask
+    
+    Flask -- "Database Ops\nport 27017" -.-> DB[(MongoDB Database\nDocker Container: mongodb)]
+    
+    Flask -- "CRUD operations\nRebuilds Index" --> Mem[In-Memory TF-IDF Index]
+    Flask -- "Search Queries" --> Mem
+```
+
 ### 2. AWS Services Used
 - **Amazon EC2 (Elastic Compute Cloud):** We are using a Linux-based EC2 instance to serve as the cloud host for our containerized application. The EC2 instance will run `Docker` and `Docker Compose` to orchestrate our application, making it highly available over the public web.
 - **Security Groups:** Used to open up TCP ports `80` and `5000` to allow inbound traffic so users can access the web application interface publicly securely.
