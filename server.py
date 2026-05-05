@@ -13,7 +13,7 @@ sys.modules['core'] = Core
 from Core import data_loader
 sys.modules['Load'] = data_loader
 
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, jsonify
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from Core.text_processor import TextProcessor
@@ -184,6 +184,76 @@ def delete_doc(doc_id):
     except Exception as e:
         logger.error(f"Error deleting document {doc_id}: {e}")
         return "Internal Server Error", 500
+
+@app.route("/api", methods=["GET"])
+def api_docs():
+    return render_template("api_docs.html")
+
+@app.route("/api/docs", methods=["GET"])
+def api_list_docs():
+    try:
+        docs = list(collection.find())
+        for doc in docs:
+            doc["_id"] = str(doc["_id"])
+        return jsonify({"status": "success", "data": docs}), 200
+    except Exception as e:
+        logger.error(f"API Error listing documents: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/docs/<doc_id>", methods=["GET"])
+def api_get_doc(doc_id):
+    try:
+        doc = collection.find_one({"_id": ObjectId(doc_id)})
+        if doc:
+            doc["_id"] = str(doc["_id"])
+            return jsonify({"status": "success", "data": doc}), 200
+        return jsonify({"status": "error", "message": "Document not found"}), 404
+    except Exception as e:
+        logger.error(f"API Error getting document: {e}")
+        return jsonify({"status": "error", "message": "Invalid ObjectId or Server Error"}), 500
+
+@app.route("/api/docs", methods=["POST"])
+def api_create_doc():
+    try:
+        data = request.get_json()
+        if not data or "content" not in data:
+            return jsonify({"status": "error", "message": "Content is required in JSON body"}), 400
+        result = collection.insert_one({"content": data["content"]})
+        rebuild_index()
+        return jsonify({"status": "success", "message": "Document created", "id": str(result.inserted_id)}), 201
+    except Exception as e:
+        logger.error(f"API Error creating document: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/docs/<doc_id>", methods=["PUT"])
+def api_update_doc(doc_id):
+    try:
+        data = request.get_json()
+        if not data or "content" not in data:
+            return jsonify({"status": "error", "message": "Content is required in JSON body"}), 400
+        
+        result = collection.update_one({"_id": ObjectId(doc_id)}, {"$set": {"content": data["content"]}})
+        if result.matched_count == 0:
+            return jsonify({"status": "error", "message": "Document not found"}), 404
+            
+        rebuild_index()
+        return jsonify({"status": "success", "message": "Document updated"}), 200
+    except Exception as e:
+        logger.error(f"API Error updating document: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/docs/<doc_id>", methods=["DELETE"])
+def api_delete_doc(doc_id):
+    try:
+        result = collection.delete_one({"_id": ObjectId(doc_id)})
+        if result.deleted_count == 0:
+            return jsonify({"status": "error", "message": "Document not found"}), 404
+            
+        rebuild_index()
+        return jsonify({"status": "success", "message": "Document deleted"}), 200
+    except Exception as e:
+        logger.error(f"API Error deleting document: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True, port=5000)
