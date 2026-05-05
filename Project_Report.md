@@ -52,11 +52,11 @@ The architecture emphasizes modularity, ensuring the Flask application seamlessl
 ### System Architecture Diagram
 ```mermaid
 graph TD
-    Client(User Web Browser) -- "HTTP Traffic\nPort 5000" --> Flask[Flask Web Application\n(Docker Container: web)]
+    Client("User Web Browser") -- "HTTP Traffic<br>Port 5000" --> Flask["Flask Web Application<br>(Docker Container: web)"]
     
-    Flask -- "Data Persistence\nport 27017" -.-> DB[(MongoDB Database\nDocker Container: mongodb)]
+    Flask -- "Data Persistence<br>port 27017" -.-> DB[("MongoDB Database<br>Docker Container: mongodb")]
     
-    Flask -- "Document Management\n(CRUD) Rebuilds Index" --> Mem[In-Memory TF-IDF Index]
+    Flask -- "Document Management<br>(CRUD) Rebuilds Index" --> Mem["In-Memory TF-IDF Index"]
     Flask -- "Search Queries" --> Mem
 ```
 
