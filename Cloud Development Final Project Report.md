@@ -205,7 +205,7 @@ Deploying the BlueFlameSearch application on an AWS EC2 instance involves severa
 1. **Connect via SSH:** Once the EC2 instance is running, connect to it using an SSH client and your `.pem` key:
 
    ```bash
-   ssh -i "cloud-key.pem" ubuntu@<EC2_PUBLIC_IPv4_ADDRESS>
+   ssh -i "cloud-key.pem" ubuntu@<http://13.60.78.77:5000/>
    ```
 
    Replace `"your-key.pem"` with the path to your private key file and `<EC2_PUBLIC_IPv4_ADDRESS>` with the public IP address of your EC2 instance.
