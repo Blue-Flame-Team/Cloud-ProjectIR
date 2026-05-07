@@ -190,7 +190,7 @@ Deploying the BlueFlameSearch application on an AWS EC2 instance involves severa
 
 1. **Choose an Amazon Machine Image (AMI):** Select `Ubuntu Server 22.04 LTS` (or a similar Linux AMI like Amazon Linux 2023) as the base operating system.
 
-1. **Choose an Instance Type:** Select `t2.micro` to utilize the AWS Free Tier benefits.
+1. **Choose an Instance Type:** Select `t3.micro` to utilize the AWS Free Tier benefits.
 
 1. **Create/Attach Key Pair:** Generate a new key pair (`.pem` file) or use an existing one. This key pair is essential for secure SSH access to the instance.
 
