@@ -124,7 +124,7 @@ graph TD
 
 ### 4.2. AWS Services Utilized
 
-- **Amazon EC2 (Elastic Compute Cloud):** A Linux-based `t2.micro` instance (eligible for AWS Free Tier) serves as the primary host for the application. Docker and Docker Compose are installed on this instance to orchestrate the web application and MongoDB containers. This provides a virtual server environment for running the application in the cloud.
+- **Amazon EC2 (Elastic Compute Cloud):** A Linux-based `t3.micro` instance (eligible for AWS Free Tier) serves as the primary host for the application. Docker and Docker Compose are installed on this instance to orchestrate the web application and MongoDB containers. This provides a virtual server environment for running the application in the cloud.
 
 - **AWS Security Groups:** Configured to act as a virtual firewall, controlling inbound and outbound traffic to the EC2 instance. Specifically, rules are set to:
   - Allow **Custom TCP Inbound Connections on Port 5000** from `0.0.0.0/0` (publicly accessible) for the web application.
@@ -205,7 +205,7 @@ Deploying the BlueFlameSearch application on an AWS EC2 instance involves severa
 1. **Connect via SSH:** Once the EC2 instance is running, connect to it using an SSH client and your `.pem` key:
 
    ```bash
-   ssh -i "your-key.pem" ubuntu@<EC2_PUBLIC_IPv4_ADDRESS>
+   ssh -i "cloud-key.pem" ubuntu@<EC2_PUBLIC_IPv4_ADDRESS>
    ```
 
    Replace `"your-key.pem"` with the path to your private key file and `<EC2_PUBLIC_IPv4_ADDRESS>` with the public IP address of your EC2 instance.
