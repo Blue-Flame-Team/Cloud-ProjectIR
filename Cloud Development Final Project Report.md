@@ -30,7 +30,6 @@
 
 1. [Conclusion](#8-conclusion)
 
-1. [References](#9-references)
 
 ## 1. Executive Summary
 
